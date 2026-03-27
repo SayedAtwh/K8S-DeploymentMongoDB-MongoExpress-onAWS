@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: mongodb-namespace
+  name: mongodb-service
+  labels:
+    app: mongodb
+    tier: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: mongodb
+    tier: backend
+  ports:
+    - port: 27017
+      targetPort: 27017

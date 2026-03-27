@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: mongodb-namespace
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        tier: backend
+    spec:
+      containers:
+        - name: my-mongo-containers
+          image: mongo
+          ports:
+            - containerPort: 27017
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-secret-mongodb
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secret-mongodb
+                key: password
+          resources:
+           requests:
+             memory: "1Gi"
+             cpu: "500m" 
+           limits:
+              memory: "2Gi"
+              cpu: "1"
+          volumeMounts:
+            - mountPath: /data/db
+              name: my-volume-mongodb
+      volumes:
+        - name: my-volume-mongodb
+          persistentVolumeClaim:
+            claimName: mongodb-pvc

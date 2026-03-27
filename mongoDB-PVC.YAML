@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: mongodb-namespace
+  name: mongodb-pvc
+  labels:
+    app: mongodb
+    tier: backend
+spec:
+  accessModes:
+   - ReadWriteOnce
+  resources:
+    requests:
+      storage: 23Gi
+  storageClassName: mongodb-sc

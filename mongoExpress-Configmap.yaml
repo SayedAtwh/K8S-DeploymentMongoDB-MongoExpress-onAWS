@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: mongodb-namespace
+  name: mongo-express-cm
+  labels:
+    app: mongoexpress
+data:
+  database_url: mongodb-service
